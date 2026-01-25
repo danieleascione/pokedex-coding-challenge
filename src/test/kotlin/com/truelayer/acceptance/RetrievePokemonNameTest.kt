@@ -1,13 +1,9 @@
 package com.truelayer.acceptance
 
-import com.truelayer.pokedexApp
+import dsl.getPokemonByName
+import dsl.startPokedex
 import io.kotest.matchers.shouldBe
-import io.ktor.client.call.*
-import io.ktor.client.plugins.contentnegotiation.*
-import io.ktor.client.request.*
-import io.ktor.http.*
-import io.ktor.serialization.kotlinx.json.*
-import io.ktor.server.testing.*
+import io.ktor.client.HttpClient
 import kotlinx.serialization.Serializable
 import org.junit.jupiter.api.Test
 
@@ -26,36 +22,17 @@ import org.junit.jupiter.api.Test
 class RetrievePokemonNameTest {
 
     @Test
-    fun `given a valid Pokemon name, when I request that Pokemon, then the response includes the Pokemon's name in JSON format`() = testApplication {
-        // Configure the application
-        application {
-            pokedexApp()
-        }
+    fun `returns name of existing pokemon`() = startPokedex {
+        // Given
+        val existingPokemonName = "pikachu"
 
-        // Configure the test client with JSON support
-        val client = createClient {
-            install(ContentNegotiation) {
-                json()
-            }
-        }
+        // When
+        val response = it.getPokemonByName(existingPokemonName)
 
-        // Given a valid Pokemon name
-        val pokemonName = "pikachu"
-
-        // When I request that Pokemon via the REST API
-        val response = client.get("/pokemon/$pokemonName")
-
-        // Then the response is successful with JSON content type
-        response.status shouldBe HttpStatusCode.OK
-        response.contentType()?.withoutParameters() shouldBe ContentType.Application.Json
-
-        // And the response includes the Pokemon's name matching what was requested
-        val body = response.body<PokemonResponse>()
-        body.name shouldBe "pikachu"
+        // Then
+        response.name shouldBe existingPokemonName
     }
 
     @Serializable
-    data class PokemonResponse(
-        val name: String
-    )
+    data class PokemonResponse(val name: String)
 }
