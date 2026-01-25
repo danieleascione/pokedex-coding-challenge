@@ -1,3 +1,7 @@
+Here is the complete, merged transcription of the challenge description, formatted as a clean Markdown file ready for an LLM or developer to read.
+
+---
+
 # Software Engineering Challenge
 
 There are successful brands who have managed to stay relevant for more than a decade without innovating too much. Some of our colleagues have young children and we’d like to offer them a fresh perspective of the world of Pokemon.
@@ -44,8 +48,6 @@ Given a Pokemon name, returns standard Pokemon description and additional inform
 
 ```
 
----
-
 ### Endpoint 2 - Translated Pokemon Description
 
 Given a Pokemon name, return translated Pokemon description and other basic information using the following rules:
@@ -65,3 +67,54 @@ This endpoint should call the [PokéAPI](https://pokeapi.co/) and the [FunTransl
 **The API response should contain a minimum of:**
 
 * Pokemon name
+* Translated Pokemon description
+* Pokemon’s habitat
+* Pokemon’s `is_legendary` status
+
+**Example response:**
+
+```json
+{
+  "name": "mewtwo",
+  "description": "Created by a scientist after years of horrific gene splicing and dna engineering experiments, it was.",
+  "habitat": "rare",
+  "isLegendary": true
+}
+
+```
+
+---
+
+## Guidelines
+
+* **Technology:** Feel free to use any programming language, framework, and library you want.
+* **Quality:** Make it concise, readable, and correct.
+* **Production Readiness:** If you would have made a different design decision for production, then comment or document it.
+* **Testing:** We love high-value unit tests which test the right things!
+* **Evaluation:** The task requirements are fairly trivial - we’re more interested in your design decisions, code layout, and approach (be prepared to explain this).
+
+### Useful APIs
+
+* **PokéAPI:** [https://pokeapi.co/](https://pokeapi.co/)
+* *Hint:* most of what you need is under the `pokemon-species` API.
+* *Hint:* the Pokemon’s description can be found under the `flavor_text` array. You can use any of the English descriptions.
+
+
+* **Shakespeare translator:** [https://funtranslations.com/api/shakespeare](https://funtranslations.com/api/shakespeare)
+* **Yoda translator:** [https://funtranslations.com/api/yoda](https://funtranslations.com/api/yoda)
+
+---
+
+## Documentation Requirements
+
+Please describe in the **README.md**:
+
+* How to run it (don't assume anything is already installed).
+* Anything you’d do differently for a production API.
+
+## Bonus Points
+
+* Dockerfile
+* Include your git history
+
+> **Have fun, take your time and when you are done please send a link to your public Github repo to your Talent Acquisition Partner!**
