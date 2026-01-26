@@ -3,7 +3,6 @@ package com.truelayer.acceptance
 import dsl.getPokemonByName
 import dsl.startPokedex
 import io.kotest.matchers.shouldBe
-import io.ktor.client.HttpClient
 import kotlinx.serialization.Serializable
 import org.junit.jupiter.api.Test
 
