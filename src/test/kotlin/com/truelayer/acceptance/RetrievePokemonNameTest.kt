@@ -3,7 +3,10 @@ package com.truelayer.acceptance
 import dsl.getPokemonByName
 import dsl.startPokedex
 import io.kotest.matchers.shouldBe
+import io.ktor.client.request.get
+import io.ktor.http.HttpStatusCode
 import kotlinx.serialization.Serializable
+import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.Test
 
 /**
@@ -30,6 +33,18 @@ class RetrievePokemonNameTest {
 
         // Then
         response.name shouldBe existingPokemonName
+    }
+
+    @Test
+    fun `returns 404 for non-existing pokemon`() = startPokedex {
+        // Given
+        val nonExistingPokemonName = "notapokemon"
+
+        // When
+        val response = it.get("/pokemon/$nonExistingPokemonName")
+
+        // Then
+        response.status shouldBe HttpStatusCode.NotFound
     }
 
     @Serializable
