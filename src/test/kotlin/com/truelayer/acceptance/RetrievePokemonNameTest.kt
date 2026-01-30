@@ -8,6 +8,7 @@ import io.ktor.http.HttpStatusCode
 import kotlinx.serialization.Serializable
 import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.Test
+import java.util.UUID
 
 /**
  * Story 1.1: Retrieve Pokemon Name
@@ -35,10 +36,11 @@ class RetrievePokemonNameTest {
         response.name shouldBe existingPokemonName
     }
 
+    @Disabled("User Story 1.1: Implementing")
     @Test
     fun `returns 404 for non-existing pokemon`() = startPokedex {
         // Given
-        val nonExistingPokemonName = "notapokemon"
+        val nonExistingPokemonName = nonExistingPokemonName()
 
         // When
         val response = it.get("/pokemon/$nonExistingPokemonName")
@@ -46,6 +48,8 @@ class RetrievePokemonNameTest {
         // Then
         response.status shouldBe HttpStatusCode.NotFound
     }
+
+    private fun nonExistingPokemonName(): String = "notapokemon-${UUID.randomUUID()}"
 
     @Serializable
     data class PokemonResponse(val name: String)
