@@ -16,5 +16,6 @@
 - **Latest versions**: Always use the latest available version when adding dependencies
 
 ## Development Workflow
+- Read the active plan (file starting with `active-plan`) to understand which feature we're developing
 - Follow [TDD Workflow](.claude/tdd-workflow.md)
 - Use [Plan Template](.claude/plan-template.md) for new features
