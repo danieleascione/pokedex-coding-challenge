@@ -1,13 +1,13 @@
 package com.truelayer.acceptance
 
-import dsl.startPokedex
+import com.truelayer.acceptance.EndToEndTest.PokemonResponse
+import com.truelayer.pokemon.info.Pokemon
+import dsl.startWithStubbedDependencies
 import io.kotest.matchers.shouldBe
-import io.ktor.client.HttpClient
 import io.ktor.client.call.body
 import io.ktor.client.request.get
 import io.ktor.http.HttpStatusCode
 import io.ktor.http.HttpStatusCode.Companion.OK
-import kotlinx.serialization.Serializable
 import org.junit.jupiter.api.Test
 import java.util.UUID
 
@@ -26,32 +26,29 @@ import java.util.UUID
 class RetrievePokemonNameTest {
 
     @Test
-    fun `returns name of existing pokemon`() = startPokedex {
+    fun `returns name of existing pokemon`() = startWithStubbedDependencies {
         // Given
-        val existingPokemonName = "pikachu"
+        pokemonRepository.knowsAbout(Pokemon("pikachu"))
 
         // When
-        val response = it.get("/pokemon/$existingPokemonName")
+        val response = pokedexClient.get("/pokemon/pikachu")
 
         // Then
         response.status shouldBe OK
-        response.body<PokemonResponse>() shouldBe existingPokemonName
+        response.body<PokemonResponse>().name shouldBe "pikachu"
     }
 
     @Test
-    fun `returns 404 for non-existing pokemon`() = startPokedex {
+    fun `returns 404 for non-existing pokemon`() = startWithStubbedDependencies {
         // Given
         val nonExistingPokemonName = nonExistingPokemonName()
 
         // When
-        val response = it.get("/pokemon/$nonExistingPokemonName")
+        val response = pokedexClient.get("/pokemon/$nonExistingPokemonName")
 
         // Then
         response.status shouldBe HttpStatusCode.NotFound
     }
 
     private fun nonExistingPokemonName(): String = "notapokemon-${UUID.randomUUID()}"
-
-    @Serializable
-    data class PokemonResponse(val name: String)
 }

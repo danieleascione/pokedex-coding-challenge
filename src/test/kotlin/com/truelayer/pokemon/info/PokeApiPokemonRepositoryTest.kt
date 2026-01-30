@@ -3,6 +3,7 @@ package com.truelayer.pokemon.info
 import io.kotest.matchers.nulls.shouldBeNull
 import io.kotest.matchers.shouldBe
 import kotlinx.coroutines.test.runTest
+import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
 
 /**
@@ -14,32 +15,36 @@ import org.junit.jupiter.api.Test
  *
  * TODO: Refactor interface to return Result<Pokemon> using kotlin.Result
  * (zero dependencies - https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-result/)
+ *  or a custom sealed class hierarchy
  */
 class PokeApiPokemonRepositoryTest {
 
-    private val repository = PokeApiPokemonRepository()
+    @Nested
+    inner class RealInteraction {
+        private val repository = PokeApiPokemonRepository()
 
-    @Test
-    fun `returns pokemon when name exists`() = runTest {
-        // Given
-        val anExistingPokemonName = "pikachu"
+        @Test
+        fun `returns pokemon when name exists`() = runTest {
+            // Given
+            val anExistingPokemonName = "pikachu"
 
-        // When
-        val result = repository.findByName(anExistingPokemonName)
+            // When
+            val result = repository.findByName(anExistingPokemonName)
 
-        // Then
-        result shouldBe Pokemon("pikachu")
-    }
+            // Then
+            result shouldBe Pokemon("pikachu")
+        }
 
-    @Test
-    fun `returns null when pokemon does not exists`() = runTest {
-        // Given
-        val nonExistingPokemonName = "notapokemon"
+        @Test
+        fun `returns null when pokemon does not exists`() = runTest {
+            // Given
+            val nonExistingPokemonName = "notapokemon"
 
-        // When
-        val result = repository.findByName(nonExistingPokemonName)
+            // When
+            val result = repository.findByName(nonExistingPokemonName)
 
-        // Then
-        result.shouldBeNull()
+            // Then
+            result.shouldBeNull()
+        }
     }
 }
