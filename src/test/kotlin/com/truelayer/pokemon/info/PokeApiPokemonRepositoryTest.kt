@@ -1,6 +1,5 @@
 package com.truelayer.pokemon.info
 
-import io.kotest.matchers.nulls.shouldNotBeNull
 import io.kotest.matchers.shouldBe
 import kotlinx.coroutines.test.runTest
 import org.junit.jupiter.api.Test
@@ -23,11 +22,13 @@ class PokeApiPokemonRepositoryTest {
 
     @Test
     fun `returns pokemon when name exists`() = runTest {
+        // Given
+        val anExistingPokemonName = "pikachu"
+
         // When
-        val pokemon = repository.findByName("pikachu")
+        val result = repository.findByName(anExistingPokemonName)
 
         // Then
-        pokemon.shouldNotBeNull()
-        pokemon.name shouldBe "pikachu"
+        result shouldBe Pokemon("pikachu")
     }
 }
