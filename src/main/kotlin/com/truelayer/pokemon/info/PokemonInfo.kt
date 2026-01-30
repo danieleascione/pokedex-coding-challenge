@@ -7,7 +7,7 @@ import io.ktor.server.routing.get
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class PokemonInfoResponse(val name: String)
+data class PokedexHttpResponse(val name: String)
 
 fun Route.pokemonInfo(pokemonRepository: PokemonRepository) {
     get("/pokemon/{name}") {
@@ -15,10 +15,12 @@ fun Route.pokemonInfo(pokemonRepository: PokemonRepository) {
 
         val pokemon = pokemonRepository.findByName(name)
 
-        val response = pokemon?.let { PokemonInfoResponse.fromPokemon(it) } ?: call.respond(HttpStatusCode.NotFound)
-
-        call.respond(response)
+        if (pokemon == null) {
+            call.respond(HttpStatusCode.NotFound)
+        } else {
+            call.respond(PokedexHttpResponse.fromPokemon(pokemon))
+        }
     }
 }
 
-fun PokemonInfoResponse.Companion.fromPokemon(pokemon: Pokemon) = PokemonInfoResponse(pokemon.name)
+fun PokedexHttpResponse.Companion.fromPokemon(pokemon: Pokemon) = PokedexHttpResponse(pokemon.name)

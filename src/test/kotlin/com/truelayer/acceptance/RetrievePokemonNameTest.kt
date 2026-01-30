@@ -1,10 +1,12 @@
 package com.truelayer.acceptance
 
-import dsl.getPokemonByName
 import dsl.startPokedex
 import io.kotest.matchers.shouldBe
+import io.ktor.client.HttpClient
+import io.ktor.client.call.body
 import io.ktor.client.request.get
 import io.ktor.http.HttpStatusCode
+import io.ktor.http.HttpStatusCode.Companion.OK
 import kotlinx.serialization.Serializable
 import org.junit.jupiter.api.Test
 import java.util.UUID
@@ -29,10 +31,11 @@ class RetrievePokemonNameTest {
         val existingPokemonName = "pikachu"
 
         // When
-        val response = it.getPokemonByName(existingPokemonName)
+        val response = it.get("/pokemon/$existingPokemonName")
 
         // Then
-        response.name shouldBe existingPokemonName
+        response.status shouldBe OK
+        response.body<PokemonResponse>() shouldBe existingPokemonName
     }
 
     @Test
