@@ -6,7 +6,6 @@ import io.kotest.matchers.shouldBe
 import io.ktor.client.request.get
 import io.ktor.http.HttpStatusCode
 import kotlinx.serialization.Serializable
-import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.Test
 import java.util.UUID
 
@@ -36,7 +35,6 @@ class RetrievePokemonNameTest {
         response.name shouldBe existingPokemonName
     }
 
-    @Disabled("User Story 1.1: Implementing")
     @Test
     fun `returns 404 for non-existing pokemon`() = startPokedex {
         // Given

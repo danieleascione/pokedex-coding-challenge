@@ -1,13 +1,12 @@
 package com.truelayer.pokemon.info
 
+import io.kotest.matchers.nulls.shouldBeNull
 import io.kotest.matchers.shouldBe
 import kotlinx.coroutines.test.runTest
 import org.junit.jupiter.api.Test
 
 /**
  * Test plan for PokeApiPokemonRepository:
- * - returns pokemon when name exists (CURRENT)
- * - returns null when pokemon does not exist
  * - handles case-insensitive names
  * - handles network timeout gracefully
  * - handles API 5xx errors
@@ -30,5 +29,17 @@ class PokeApiPokemonRepositoryTest {
 
         // Then
         result shouldBe Pokemon("pikachu")
+    }
+
+    @Test
+    fun `returns null when pokemon does not exists`() = runTest {
+        // Given
+        val nonExistingPokemonName = "notapokemon"
+
+        // When
+        val result = repository.findByName(nonExistingPokemonName)
+
+        // Then
+        result.shouldBeNull()
     }
 }

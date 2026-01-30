@@ -9,14 +9,16 @@ import kotlinx.serialization.Serializable
 @Serializable
 data class PokemonInfoResponse(val name: String)
 
-fun Route.pokemonInfo() {
+fun Route.pokemonInfo(pokemonRepository: PokemonRepository) {
     get("/pokemon/{name}") {
         val name = call.parameters["name"]!!
 
-        if (name.contentEquals("notapokemon", ignoreCase = true)) {
-            call.respond(HttpStatusCode.NotFound)
-        }
+        val pokemon = pokemonRepository.findByName(name)
 
-        call.respond(PokemonInfoResponse(name = name))
+        val response = pokemon?.let { PokemonInfoResponse.fromPokemon(it) } ?: call.respond(HttpStatusCode.NotFound)
+
+        call.respond(response)
     }
 }
+
+fun PokemonInfoResponse.Companion.fromPokemon(pokemon: Pokemon) = PokemonInfoResponse(pokemon.name)
