@@ -1,5 +1,10 @@
 # Feature: Story 1.1 - Retrieve Pokemon Name
 
+## TODO
+
+- [ ] Add contract tests with the APIs
+- [ ] Refactor the type
+
 ## Context
 
 **As a** parent sharing Pokemon facts with my child
